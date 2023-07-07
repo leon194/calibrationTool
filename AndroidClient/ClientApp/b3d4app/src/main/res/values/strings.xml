@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">b3d4app</string>
+
+    <string name="label_textView_version_info">App Version</string>
+
+    <string name="label_textView_device_model">Device Model</string>
+
+    <string name="label_textView_wifi_p2p_status">Wifi Discovery</string>
+
+    <string name="label_textView_discovery_status">Host Discovery</string>
+
+    <string name="label_textView_connection_status">WebSocket</string>
+
+    <string name="label_textView_connected_host">Connected Host</string>
+
+    <string name="label_textView_received_data">Received Msg</string>
+
+    <string name="label_textView_sent_data">Sent Msg</string>
+
+    <string name="label_textView_debug">Debug</string>
+</resources>

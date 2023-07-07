@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:background="#FFFFFF" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="Open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/CamOpenButton"
+                android:textSize="10sp" />
+
+            <Button
+                android:text="Close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/CamCloseButton"
+                android:textSize="10sp" />
+            <Button
+                android:text="Capture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/CaptureButton"
+                android:layout_weight="1"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/FloodButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Flood"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/ProjectorButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Projector"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:text="start capture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/StartCaptureButton"
+                android:textSize="10sp" />
+            <Button
+                android:text="merge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/MergeButton"
+                android:textSize="10sp" />
+
+            <Button
+                android:text="stop Monitor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/stopMonitorButton"
+                android:textSize="10sp" />
+
+            <Button
+                android:text="sd update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sdUpdateButton"
+                android:textSize="10sp" />
+
+            <CheckBox
+                android:id="@+id/ResSwitchchk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="8M" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextureView
+                android:id="@+id/camLTexture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextureView
+                android:id="@+id/camRTexture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextureView
+                android:id="@+id/camMTexture"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_device_model"
+                        android:labelFor="@id/main_activity_textView_device_model" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_device_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_version_info"
+                        android:labelFor="@id/main_activity_textView_version_info" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_version_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_wifi_p2p_status"
+                        android:labelFor="@id/main_activity_textView_wifi_p2p_status" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_wifi_p2p_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_discovery_status"
+                        android:labelFor="@id/main_activity_textView_discovery_status" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_discovery_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_connection_status"
+                        android:labelFor="@id/main_activity_textView_connection_status" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_connection_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_connected_host"
+                        android:labelFor="@id/main_activity_textView_connected_host" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_connected_host"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_received_data"
+                        android:labelFor="@id/main_activity_textView_received_data" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_received_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_sent_data"
+                        android:labelFor="@id/main_activity_textView_sent_data" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_sent_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="120dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_textView_debug"
+                        android:labelFor="@id/main_activity_textView_debug" />
+                    <TextView
+                        android:id="@+id/main_activity_textView_debug"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

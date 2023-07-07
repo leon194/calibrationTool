@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+
+def getBranchName = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null
+    }
+}
+def getBuildNumber = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--count', 'HEAD'
+            standardOutput = stdout
+        }
+        return Integer.parseInt(stdout.toString().trim())
+    }
+    catch (ignored) {
+        return null
+    }
+}
+def getShortCommitHash = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString()[0..6]
+    }
+    catch (ignored) {
+        return null
+    }
+}
+def getVersion = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--abbrev=0', '--tag'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null
+    }
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.0"
+
+
+    defaultConfig {
+        applicationId "com.bellus3d.android.arc.b3d4app"
+        minSdkVersion 24
+        targetSdkVersion 28
+        versionCode getBuildNumber()
+        versionName getVersion()
+        setProperty("archivesBaseName", "ArcClient-v$getVersion")
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    signingConfigs {
+        debug {
+            storeFile rootProject.file('bellus3d_debug.keystore')
+            keyAlias 'bellus3d_debugkey'
+            keyPassword 'bellus3d'
+            storePassword 'bellus3d'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            jniDebuggable = true
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation  project(path: ':b3d4client')
+    //implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'org.apache.commons:commons-io:1.3.2'
+    implementation 'com.github.ghost1372:Mzip-Android:0.4.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}

@@ -1,0 +1,17 @@
+From:	Szymon Rusinkiewicz <smr@CS.Princeton.EDU>
+Sent:	Thursday, October 10, 2013 3:08 PM
+To:	James Davis
+Cc:	Eric Chen
+Subject:	Re: trimesh license terms and introduction
+
+
+Hi,
+
+The only part that was GPL code from elsewhere was the bounding sphere computation.  You can keep 
+it from being used by changing the #if 1 to an #if 0 in Trimesh_bounding.cc
+
+For the rest, I hereby grant both of you the right to use it in commercial products.  I would appreciate 
+any modifications, but that's not required.
+
+ - Szymon
+

@@ -1,0 +1,187 @@
+From 54076ddd5e6b509f3bb92293620bd64ceba4381e Mon Sep 17 00:00:00 2001
+From: Leon Feng <leon194@gmail.com>
+Date: Sat, 8 Jul 2023 01:05:35 +0800
+Subject: [PATCH 2/2] change saved name
+
+---
+ .../b3d4/ratesttool/PermissionService.java    | 42 -----------------
+ .../b3d4client/src/main/cpp/b3d4module.cpp    | 17 +++++--
+ .../calibrationtool/CalibrationTool.java      |  3 ++
+ .../calibrationtool/PermissionService.java    | 46 -------------------
+ 4 files changed, 16 insertions(+), 92 deletions(-)
+ delete mode 100644 AndroidClient/ClientApp/RATestTool/src/main/java/com/bellus3d/android/b3d4/ratesttool/PermissionService.java
+ delete mode 100644 AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/PermissionService.java
+
+diff --git a/AndroidClient/ClientApp/RATestTool/src/main/java/com/bellus3d/android/b3d4/ratesttool/PermissionService.java b/AndroidClient/ClientApp/RATestTool/src/main/java/com/bellus3d/android/b3d4/ratesttool/PermissionService.java
+deleted file mode 100644
+index 0980cc5..0000000
+--- a/AndroidClient/ClientApp/RATestTool/src/main/java/com/bellus3d/android/b3d4/ratesttool/PermissionService.java
++++ /dev/null
+@@ -1,42 +0,0 @@
+-package com.bellus3d.android.b3d4.ratesttool;
+-
+-import android.content.pm.PackageManager;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-/**
+- * Created by alexp on 1/26/2018.
+- */
+-
+-public class PermissionService {
+-
+-    public static final int REQUEST_CODE_B3D4_PERMISSION = 1300;
+-
+-    private RATestTool activity;
+-
+-    String[] permissions;
+-	
+-     PermissionService(final RATestTool activity, final String[] permissions) {
+-        this.activity = activity;
+-        this.permissions = permissions;
+-    }
+-
+-    public boolean checkAllPermissionsEnabled() {
+-        for(String permission : permissions){
+-            if(activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
+-                return false;
+-        }
+-        return true;
+-    }
+-
+-    public void requestMultiplePermissions(){
+-        List<String> remainingPermissions = new ArrayList<>();
+-        for (String permission : permissions) {
+-            if (activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+-                remainingPermissions.add(permission);
+-            }
+-        }
+-        activity.requestPermissions(remainingPermissions.toArray(new String[remainingPermissions.size()]), REQUEST_CODE_B3D4_PERMISSION);
+-    }
+-}
+\ No newline at end of file
+diff --git a/AndroidClient/ClientApp/b3d4client/src/main/cpp/b3d4module.cpp b/AndroidClient/ClientApp/b3d4client/src/main/cpp/b3d4module.cpp
+index 99d81d8..645331a 100644
+--- a/AndroidClient/ClientApp/b3d4client/src/main/cpp/b3d4module.cpp
++++ b/AndroidClient/ClientApp/b3d4client/src/main/cpp/b3d4module.cpp
+@@ -9,6 +9,7 @@
+ 
+ #include <math.h>
+ #include <utility>
++#include <sys/system_properties.h>
+ 
+ enum saveFormate {
+     JPEG,
+@@ -155,7 +156,13 @@ public:
+         }
+ 
+         if(frameData->frameInfo.frameType == FrameInfo::FrameType::CAPTURE) {
+-
++            long curTime = b3di::now_ms();
++            long lastTime = 0L;
++#ifdef __ANDROID__
++            char value[255] = "";
++            __system_property_get("debug.cptool.open",value);
++            lastTime = stol(value);
++#endif
+             stringstream ss;
+             std::string path = CALIBRATION_FOLDER_PATH;
+ 
+@@ -169,21 +176,23 @@ public:
+ 
+             ss << setw(5) << setfill('0') << to_string(frameData->frameInfo.frameId);
+             std::string frameindex_2 = ss.str();
++            //logError("leon curTime %ld, lastTime %ld", curTime, lastTime);
+ 
++            string name = to_string(curTime - lastTime);
+             switch(frameData->frameType) {
+                 case B3DCameraFrame::L_FRAME :
+                     // the capture results for calibration is preferred to have fix file name
+                     // the time stamp naming should be use for continuous capture
+                     // path = path + "L/L_" + frameindex + timeStamp + frameindex_2 + ".png";
+-                    path = path + "L/L.png";
++                    path = path + "L/" + name + ".png";
+                     break;
+                 case B3DCameraFrame::R_FRAME :
+                     // path = path + "R/R_" + frameindex + timeStamp + frameindex_2 + ".png";
+-                    path = path + "R/R.png";
++                    path = path + "R/" + name + ".png";
+                     break;
+                 case B3DCameraFrame::M_FRAME :
+                     // path = path + "M/M_" + frameindex + timeStamp + frameindex_2 + ".png";
+-                    path = path + "M/M.png";
++                    path = path + "M/" + name + ".png";
+                     break;
+                 default:
+                     path="";
+diff --git a/AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/CalibrationTool.java b/AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/CalibrationTool.java
+index 69cbe0a..51e2a48 100644
+--- a/AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/CalibrationTool.java
++++ b/AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/CalibrationTool.java
+@@ -112,6 +112,9 @@ public class CalibrationTool extends AppCompatActivity{
+         mCamOpenBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
++                String curTime = String.valueOf(System.currentTimeMillis());
++                CameraConfigService.set("debug.cptool.open", curTime);
++                //LogService.d(TAG,"leon " + curTime);
+                 gainArray = LocalConfigService.GetLastAEAWBValueJNI();
+                 float aeRatio = mExpRate.getText().toString().trim().length() > 0 ? Float.parseFloat(mExpRate.getText().toString()) : 0.0f;
+                 float awbRatio = mWBRate.getText().toString().trim().length() > 0 ? Float.parseFloat(mWBRate.getText().toString()) : 0.0f;
+diff --git a/AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/PermissionService.java b/AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/PermissionService.java
+deleted file mode 100644
+index 506f540..0000000
+--- a/AndroidClient/ClientApp/calibrationtool/src/main/java/com/bellus3d/android/calibrationtool/PermissionService.java
++++ /dev/null
+@@ -1,46 +0,0 @@
+-package com.bellus3d.android.calibrationtool;
+-
+-import android.Manifest;
+-import android.app.Activity;
+-import android.content.pm.PackageManager;
+-import android.support.v4.app.ActivityCompat;
+-import android.support.v4.content.ContextCompat;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-/**
+- * Created by alexp on 1/26/2018.
+- */
+-
+-public class PermissionService {
+-
+-    public static final int REQUEST_CODE_B3D4_PERMISSION = 1300;
+-
+-    private CalibrationTool activity;
+-	
+-    String[] permissions;
+-	
+-     PermissionService(final CalibrationTool activity, final String[] permissions) {
+-        this.activity = activity;
+-        this.permissions = permissions;
+-    }
+-
+-    public boolean checkAllPermissionsEnabled() {
+-        for(String permission : permissions){
+-            if(activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
+-                return false;
+-        }
+-        return true;
+-    }
+-
+-    public void requestMultiplePermissions(){
+-        List<String> remainingPermissions = new ArrayList<>();
+-        for (String permission : permissions) {
+-            if (activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+-                remainingPermissions.add(permission);
+-            }
+-        }
+-        activity.requestPermissions(remainingPermissions.toArray(new String[remainingPermissions.size()]), REQUEST_CODE_B3D4_PERMISSION);
+-    }
+-}
+\ No newline at end of file
+-- 
+2.18.0.windows.1
+

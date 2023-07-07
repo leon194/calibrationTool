@@ -1,0 +1,50 @@
+#pragma once
+
+
+#include <vector>
+#include <opencv2/core.hpp>
+//using namespace std;
+//using namespace cv;
+
+#include "FaceTracker.h"
+
+namespace b3di {
+
+// Meitu Face Tracker
+class FaceTrackerMT : public FaceTracker {
+public:
+
+	FaceTrackerMT();
+	virtual ~FaceTrackerMT();
+
+	virtual FaceTrackerType getTrackerType() const {
+		return FT_MT;
+	}
+
+	// image will be automatically converted to RGBA if it is not
+	// LandmarkCount can be 83 or 171. Default is 83
+	// startFromOldLandmarks is not supported
+	virtual bool findLandmarks(const cv::Mat& image, int landmarkCount = 0, bool startFromOldLandmarks = false, const cv::Rect& searchRect = cv::Rect());
+
+	virtual cv::Rect getFaceRect() const;
+
+	virtual bool readFile(const cv::String& inputFile);
+
+	// Get landmark index from a landmark key
+	virtual int getLandmarkIndex(LandmarkKey key) const;
+	virtual void getLandmarkIndices(LandmarkKey key, std::vector<int>& landmarkIds) const;
+
+	virtual bool getHeadPose(cv::Vec3d& headPose) const;
+
+	// Get the outer face contour 2d landmark indices
+	virtual void getFaceContourIndices(std::vector<int>& contourIds) const;
+
+	virtual bool isGoodPointToTrack(int landmarkId) const;
+
+	virtual bool isEyeClosed() const;
+
+protected:
+
+};
+
+} // namespace b3di

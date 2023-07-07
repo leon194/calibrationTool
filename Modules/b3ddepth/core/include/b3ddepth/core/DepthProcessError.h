@@ -1,0 +1,13 @@
+#pragma once
+
+namespace b3dd {
+
+    enum B3D_DEPTH_COMPUTATION_ERROR {
+        INPUT_IMAGE_INVALID,
+        INTPUT_CALIBATION_DATA_INVALID,
+        INPUT_ROI_INVALID,
+        INTPUT_RECT_MAP_INVALID,
+        INPUT_CONFIG_INVALID
+    };
+
+}

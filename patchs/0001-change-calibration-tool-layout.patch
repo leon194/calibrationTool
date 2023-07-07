@@ -1,0 +1,25 @@
+From c6179749269e84f298452c755983e3b96e15ad2a Mon Sep 17 00:00:00 2001
+From: Leon Feng <lfeng@bellus3d.com>
+Date: Sun, 18 Jun 2023 09:17:03 +0800
+Subject: [PATCH 1/2] change calibration tool layout
+
+---
+ .../src/main/res/layout/activity_calibration_tool.xml           | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/AndroidClient/ClientApp/calibrationtool/src/main/res/layout/activity_calibration_tool.xml b/AndroidClient/ClientApp/calibrationtool/src/main/res/layout/activity_calibration_tool.xml
+index 6dff85e..8fc6433 100644
+--- a/AndroidClient/ClientApp/calibrationtool/src/main/res/layout/activity_calibration_tool.xml
++++ b/AndroidClient/ClientApp/calibrationtool/src/main/res/layout/activity_calibration_tool.xml
+@@ -191,6 +191,8 @@
+ 
+             <TextureView
+                 android:id="@+id/camMTexture"
++                android:layout_marginLeft="128dp"
++                android:layout_marginRight="128dp"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1" />
+-- 
+2.18.0.windows.1
+
