@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <utility>
+#include <sys/system_properties.h>
 
 enum saveFormate {
     JPEG,
@@ -156,6 +157,14 @@ public:
 
         if(frameData->frameInfo.frameType == FrameInfo::FrameType::CAPTURE) {
 
+            long curTime = b3di::now_ms();
+            long lastTime = 0L;
+#ifdef __ANDROID__
+            char value[255] = "";
+            __system_property_get("debug.cptool.open",value);
+            lastTime = stol(value);
+#endif
+
             stringstream ss;
             std::string path = CALIBRATION_FOLDER_PATH;
 
@@ -170,20 +179,21 @@ public:
             ss << setw(5) << setfill('0') << to_string(frameData->frameInfo.frameId);
             std::string frameindex_2 = ss.str();
 
+            string name = to_string(curTime - lastTime);
             switch(frameData->frameType) {
                 case B3DCameraFrame::L_FRAME :
                     // the capture results for calibration is preferred to have fix file name
                     // the time stamp naming should be use for continuous capture
                     // path = path + "L/L_" + frameindex + timeStamp + frameindex_2 + ".png";
-                    path = path + "L/L.png";
+                    path = path + "L/" + name + ".png";
                     break;
                 case B3DCameraFrame::R_FRAME :
                     // path = path + "R/R_" + frameindex + timeStamp + frameindex_2 + ".png";
-                    path = path + "R/R.png";
+                    path = path + "R/" + name + ".png";
                     break;
                 case B3DCameraFrame::M_FRAME :
                     // path = path + "M/M_" + frameindex + timeStamp + frameindex_2 + ".png";
-                    path = path + "M/M.png";
+                    path = path + "M/" + name + ".png";
                     break;
                 default:
                     path="";

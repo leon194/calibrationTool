@@ -129,6 +129,9 @@ public class CalibrationTool extends AppCompatActivity{
         mCamOpenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String curTime = String.valueOf(System.currentTimeMillis());
+                CameraConfigService.set("debug.cptool.open", curTime);
+
                 gainArray = LocalConfigService.GetLastAEAWBValueJNI();
                 float aeRatio = mExpRate.getText().toString().trim().length() > 0 ? Float.parseFloat(mExpRate.getText().toString()) : 0.0f;
                 float awbRatio = mWBRate.getText().toString().trim().length() > 0 ? Float.parseFloat(mWBRate.getText().toString()) : 0.0f;
