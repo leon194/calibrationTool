@@ -165,6 +165,18 @@ public:
             lastTime = stol(value);
 #endif
 
+            string flValue;
+            ifstream fl("/sys/flood/brightness");
+            fl >> flValue;
+            fl.close();
+
+            string prValue;
+            ifstream pr("/sys/projector/brightness");
+            pr >> prValue;
+            pr.close();
+            //logError("leon %s %s",flValue.c_str(), prValue.c_str());
+
+
             stringstream ss;
             std::string path = CALIBRATION_FOLDER_PATH;
 
@@ -180,6 +192,11 @@ public:
             std::string frameindex_2 = ss.str();
 
             string name = to_string(curTime - lastTime);
+            if(stoi(flValue) != 0)
+                    name += "_flood";
+            if(stoi(prValue) != 0)
+                    name += "_prj";
+
             switch(frameData->frameType) {
                 case B3DCameraFrame::L_FRAME :
                     // the capture results for calibration is preferred to have fix file name

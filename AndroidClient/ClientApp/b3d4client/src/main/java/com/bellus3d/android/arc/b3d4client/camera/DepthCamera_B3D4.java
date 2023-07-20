@@ -33,9 +33,12 @@ import com.bellus3d.android.arc.b3d4client.MessageService.NetWorkMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -704,13 +707,35 @@ class DepthCamera_B3D4 extends DepthCameraImpl {
     @Override
     boolean setFlood(B3DDepthCamera.Control ctrl, String value) {
         if(Flood.exists()) {
+
+            int curValue = 0;
+            String curLevel = "";
             try {
-                FileWriter fileWriter = new FileWriter(Flood);
-                fileWriter.write(value);
-                fileWriter.close();
+                FileReader fr = new FileReader(Flood);
+                curValue = fr.read();
+                while(curValue != -1) {
+                    curLevel += String.valueOf((char)curValue);
+                    curValue = fr.read();
+                }
+                fr.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-                LogService.logStackTrace(TAG, e.getStackTrace());
+            }
+            //LogService.e(TAG,"leon -->" + curLevel);
+
+            if(curLevel != value) {
+                try {
+                    FileWriter fileWriter = new FileWriter(Flood);
+                    fileWriter.write(value);
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    LogService.logStackTrace(TAG, e.getStackTrace());
+                }
+            } else {
+                LogService.i(TAG,"skip same value");
             }
         } else {
             LogService.e(TAG, "Flood sys node not exist");

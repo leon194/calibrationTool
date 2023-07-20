@@ -460,7 +460,7 @@ public class CalibrationTool extends AppCompatActivity{
                             FormattingService.savePNG8UC1(byteToSave, ir_width, ir_height, irRPath);
                         }
                     }).start();
-                } else if(mNVCaptureCount == 7) {
+                } else if(mNVCaptureCount == 9) {
                     final byte[] frameData = byteData.clone();
                     new Thread(new Runnable() {
                         @Override
@@ -481,7 +481,7 @@ public class CalibrationTool extends AppCompatActivity{
                             byte[] byteToSave = Arrays.copyOfRange(frameData, color_size, color_size + ir_size);
                             FormattingService.savePNG8UC1(byteToSave, ir_width, ir_height, irLPath);
 
-                            String irRPath = "/sdcard/Bellus3d/Arc/calibrationtool/R/fprj_R.jpg";
+                            String irRPath = "/sdcard/Bellus3d/Arc/calibrationtool/R/prj_R.jpg";
                             byteToSave = Arrays.copyOfRange(frameData, color_size + ir_size, color_size + ir_size * 2);
                             FormattingService.savePNG8UC1(byteToSave, ir_width, ir_height, irRPath);
                         }
