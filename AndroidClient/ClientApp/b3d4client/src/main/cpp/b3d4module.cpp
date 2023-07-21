@@ -157,13 +157,13 @@ public:
 
         if(frameData->frameInfo.frameType == FrameInfo::FrameType::CAPTURE) {
 
-            long curTime = b3di::now_ms();
-            long lastTime = 0L;
-#ifdef __ANDROID__
-            char value[255] = "";
-            __system_property_get("debug.cptool.open",value);
-            lastTime = stol(value);
-#endif
+//            long curTime = b3di::now_ms();
+//            long lastTime = 0L;
+//#ifdef __ANDROID__
+//            char value[255] = "";
+//            __system_property_get("debug.cptool.open",value);
+//            lastTime = stol(value);
+//#endif
 
             string flValue;
             ifstream fl("/sys/flood/brightness");
@@ -191,7 +191,8 @@ public:
             ss << setw(5) << setfill('0') << to_string(frameData->frameInfo.frameId);
             std::string frameindex_2 = ss.str();
 
-            string name = to_string(curTime - lastTime);
+//            string name = to_string(curTime - lastTime);
+            string name = "";
             if(stoi(flValue) != 0)
                     name += "_flood";
             if(stoi(prValue) != 0)
@@ -202,15 +203,15 @@ public:
                     // the capture results for calibration is preferred to have fix file name
                     // the time stamp naming should be use for continuous capture
                     // path = path + "L/L_" + frameindex + timeStamp + frameindex_2 + ".png";
-                    path = path + "L/" + name + ".png";
+                    path = path + "L/L" + name + ".png";
                     break;
                 case B3DCameraFrame::R_FRAME :
                     // path = path + "R/R_" + frameindex + timeStamp + frameindex_2 + ".png";
-                    path = path + "R/" + name + ".png";
+                    path = path + "R/R" + name + ".png";
                     break;
                 case B3DCameraFrame::M_FRAME :
                     // path = path + "M/M_" + frameindex + timeStamp + frameindex_2 + ".png";
-                    path = path + "M/" + name + ".png";
+                    path = path + "M/M" + name + ".png";
                     break;
                 default:
                     path="";

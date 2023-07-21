@@ -129,8 +129,8 @@ public class CalibrationTool extends AppCompatActivity{
         mCamOpenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String curTime = String.valueOf(System.currentTimeMillis());
-                CameraConfigService.set("debug.cptool.open", curTime);
+//                String curTime = String.valueOf(System.currentTimeMillis());
+//                CameraConfigService.set("debug.cptool.open", curTime);
 
                 gainArray = LocalConfigService.GetLastAEAWBValueJNI();
                 float aeRatio = mExpRate.getText().toString().trim().length() > 0 ? Float.parseFloat(mExpRate.getText().toString()) : 0.0f;
@@ -245,7 +245,7 @@ public class CalibrationTool extends AppCompatActivity{
             public void onClick(View view) {
                 if (!nvCapture.get()) {
                     nvCapture.set(true);
-                    _recordingService.startFlood();
+                    //_recordingService.startFlood();
                     mNVCaptureCount = 0;
                 }
             }
